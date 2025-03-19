@@ -4,13 +4,13 @@ import "bootstrap/dist/css/bootstrap.min.css";
 const CreatePost = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [isSubmitting, seIsSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoading(true);
+    seIsSubmitting(true);
     setError("");
     setSuccess("");
 
@@ -36,7 +36,7 @@ const CreatePost = () => {
     } catch (err) {
       setError(err.message);
     } finally {
-      setLoading(false);
+      seIsSubmitting(false);
     }
   };
 
@@ -51,7 +51,7 @@ const CreatePost = () => {
               {error && <div className="alert alert-danger">{error}</div>}
               {success && <div className="alert alert-success">{success}</div>}
 
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmit} data-testid="post-form">
                 <div className="mb-3">
                   <label className="form-label fw-bold">Title</label>
                   <input
@@ -80,9 +80,10 @@ const CreatePost = () => {
                   <button
                     className="btn btn-success"
                     type="submit"
-                    disabled={loading}
+                    name="Publish"
+                    disabled={isSubmitting}
                   >
-                    {loading ? (
+                    {isSubmitting ? (
                       <>
                         <span className="spinner-border spinner-border-sm me-2"></span>
                         Publishing...
